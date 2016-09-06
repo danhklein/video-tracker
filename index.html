@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bomb Bomb Hires Dan</title>
+</head>
+<body>
+  <video id="video-player" width="400" height="300" controls>
+    <source src="http://techslides.com/demos/sample-videos/small.webm" type="video/webm">
+  Why is your browser so terrible.
+  </video>
+
+<button onclick="showInfo()">Show Info</button>
+Times Played:<span id="times-played"></span></p>
+<p></p>
+<script type="text/javascript">
+
+var timeArr = [];
+var timeObj = {};
+
+
+  var vid = document.getElementById("video-player");
+  //When rewinding or fast forwarding get time, also add UTC stamp
+  vid.onplay = function () {
+    playerAction(true);
+    timeArr.push(timeObj);
+    console.log(timeArr);
+  };
+
+  vid.onpause = function () {
+    playerAction(false);
+    timeArr.push(timeObj);
+    console.log(timeArr);
+  };
+
+  function playerAction (status) {
+    timeObj.UTC = new Date();
+    timeObj.eventTime = vid.currentTime;
+    timeObj.play = status;
+  };
+
+
+</script>
+
+</body>
+</html>
