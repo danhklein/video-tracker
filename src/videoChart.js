@@ -59,26 +59,24 @@ function insertAllDataIntoSets () {
 //   return false;   // Not found
 // }
 
-function indexOfRow(array, item) {
-  for (var i = 0; i < array.length; i++) {
-        // This if statement depends on the format of your array
-    if (array[i][0] == item) {
-      return i;   // Found it, return index
-    }
-  }
-  return -1;   // Not found
-}
-
-
-
 let averageData = [];
 
-let averageBuilder = function (range, point, aveArray) {
-  if(doRangesOverlap(range, point)) {
-    addAveragePoint(point, aveArray)
+//NEXT STEP: Push the average data into the chart
+
+
+function recursion (sortedData, i){
+  var tempArray = [];
+  if (sortedData.length===1 && !i ){
+    //recursion over
+  } if (sortedData.length > 1) {
+  averageBuilder(sortedData[i], sortedData[sortedData.length-1], aveArray);
+  tempArray.push(sortedData.pop());
+  tryAgain(sortedData, i);
+  } if (sortedData.length===1 && i > 0) {
+    tryAgain(tempArray, i++)
   }
-  return 0;
 }
+//On each iteration
 
 let averageBuilder = (range, point, aveArray) => {
   if(doRangesOverlap(range, point)) {
@@ -87,14 +85,14 @@ let averageBuilder = (range, point, aveArray) => {
   return 0;
 }
 
+//Called in averageBuilder()
 let doRangesOverlap = (range, point) => {
   if (range.data[0].x <= point.data[0].x && point.data[0].x <= range.data[1].x) {
     return 1;
   }
   return 0;
 }
-
-
+//Called in averageBuilder()
 let addAveragePoint = (point, aveArray) => {
    if (indexOfRow(averageArray, point.data[0]) === -1) {
     aveArray.push([point.data[0],1]);
@@ -102,18 +100,25 @@ let addAveragePoint = (point, aveArray) => {
   else aveArray[indexOfRow(averageArray, point.data[0])][1]++
 }
 
-
+//Called in addAveragePoint()
+let indexOfRow = (array, item) => {
+  for (var i = 0; i < array.length; i++) {
+        // This if statement depends on the format of your array
+    if (array[i][0] == item) {
+      return i;   // Found it, return index
+    }
+  }
+  return -1;   // Not found
+}
 //Creates new Array sorted by playback moment
 
-let sortRanges = (datasets) =>{
-  // temporary array holds objects with position and sort-value
-  let mapped = datasets.map((el, i) =>
-    ({ index: i, value: el.data[0].x }))
+function sortRanges (datasets) {
+  let mapped = datasets.map( function (el, i) {
+    return { index: i, value: el.data[0].x }})
   // sorting the mapped array containing the reduced values
-  mapped.sort((a, b) => {
-    +(a.value > b.value) || +(a.value === b.value) - 1;
+  mapped.sort(function (a, b) {
+    return +(a.value > b.value) || +(a.value === b.value) - 1;
   });
   // container for the resulting order
-  let result = mapped.map(el => datasets[el.index]);
-  return result;
-}
+  let result = mapped.map(function (el){ return datasets[el.index]});
+  return result}
