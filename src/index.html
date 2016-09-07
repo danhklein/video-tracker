@@ -20,30 +20,33 @@ let pauseArr = [];
 let vid = document.getElementById("video-player");
 let ctx = document.getElementById("myChart").getContext("2d");
 let lines = [];
-
-// function TimeRange (range) {
-//   this.start = range.start;
-//   this.stop = range.stop
-// }
-
-var timeObj =
-{start: 0,
-stop: 0};
+let timeRange = [];
+let dataSets = [];
 
 
-  vid.onplay = function () {
-    playerAction('start');
-  };
 
-  vid.onpause = function () {
-    playerAction('stop');
-    createLinesArr(timeObj)
-  };
 
-    function playerAction (action) {
-    let UTC = new Date();
-    timeObj[action] = vid.currentTime;
-  };
+vid.onplay = function () {
+  playerAction(0);
+};
+
+vid.onpause = function () {
+  playerAction(1);
+  createDataSets();
+  createLinesArr(timeObj)
+};
+
+function createDataSets() {
+  dataSets.push(timeRange);
+}
+
+function playerAction (action) {
+  let realTime = new Date(month, day, hours, minutes, seconds);
+  timeRange[action] = vid.currentTime;
+  if (action) {
+    timeRange[2] = realTime;
+  }
+};
 
 </script>
 <script src="./videoChart.js"></script>

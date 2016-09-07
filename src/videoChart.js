@@ -21,7 +21,6 @@
                 {x: 2, y: 0},
                 {x: 6, y: 1}
             ]
-
         }
         ]
     },
@@ -41,10 +40,11 @@ function createLinesArr (timeObj) {
   lines[1] = {x: timeObj.stop, y: replay}
 
   myChart.data.datasets.push({
+    label: replay + "chart",
     fill: false,
     data: lines
   })
-  myChart.update();
+
 }
 
 
