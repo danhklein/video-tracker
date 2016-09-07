@@ -14,38 +14,38 @@
   <canvas id="myChart" width="400" height="400"></canvas>
 <script type="text/javascript">
 
-let playArr = [];
-let pauseArr = [];
+
+let line =[];
 
 let vid = document.getElementById("video-player");
 let ctx = document.getElementById("myChart").getContext("2d");
-let lines = [];
+
+
+//Inserting time Ranges as objects directly into Chart.js data set array caused weirdness.
+
 let timeRange = [];
-let dataSets = [];
-
-
-
+let allPlayBacks = [];
 
 vid.onplay = function () {
-  playerAction(0);
+  createTimeRange(0);
 };
 
 vid.onpause = function () {
-  playerAction(1);
-  createDataSets();
-  createLinesArr(timeObj)
+  createTimeRange(1);
+  insertPlayBackArray();
+  insertAllDataIntoSets();
 };
 
-function createDataSets() {
-  dataSets.push(timeRange);
+function insertPlayBackArray() {
+  allPlayBacks.push(timeRange);
 }
 
-function playerAction (action) {
-  let realTime = new Date(month, day, hours, minutes, seconds);
+function createTimeRange (action) {
+  let realTime = new Date();
   timeRange[action] = vid.currentTime;
-  if (action) {
+  if (!action) {
     timeRange[2] = realTime;
-  }
+  };
 };
 
 </script>
