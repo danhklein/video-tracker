@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>Bomb Bomb Hires Dan</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.js"></script>
+
 
 </head>
 <body>
@@ -11,14 +13,15 @@
   Why is your browser so terrible.
   </video>
 
-  <canvas id="myChart" width="400" height="400"></canvas>
+  <canvas id="myChart" width="200" height="150"></canvas>
+
 <script type="text/javascript">
 
 
 let line =[];
 
 let vid = document.getElementById("video-player");
-let ctx = document.getElementById("myChart").getContext("2d");
+
 
 
 //Inserting time Ranges as objects directly into Chart.js data set array caused weirdness.
