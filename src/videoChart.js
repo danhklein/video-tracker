@@ -37,37 +37,31 @@ var options = {
 }
 
 
-
-// var options = {
-  // title: {
-  // display: true,
-  // text: 'Replay History'
-  // },
-  // elements: {
-  //   line: {
-  //     borderColor: 'rgba(0,0,128,0.7)'
-  //   }
-  // },
-//   scales: {
-//     xAxes: {
-//       type: 'linear',
-//       beginAtZero: true
-//     }
-//   }
-// }
-
-
 var myChart = new Chart(ctx, {
     type: 'line',
     data: data,
     options: options});
 
 
-
-
 //Erase and Build New Chart
 function createChart () {
   myChart.update();
+}
+
+//As dataset grows past five, increments YAxes
+function changeYAxes () {
+if (myChart.data.datasets.length > 4) {
+      myChart.options.scales.yAxes[0].ticks.max = myChart.data.datasets.length + 1;
+    }
+}
+
+function pushData (line) {
+  myChart.data.labels.push(line[1].x)
+    myChart.data.datasets.push({
+      label: `Replay ${replay}`,
+      fill: false,
+      data: line
+    })
 }
 
 // // //Create all Datasets from Array
@@ -77,27 +71,21 @@ function insertAllDataIntoSets () {
     replay = i + 1;
     line[0] = {
       x: allPlayBacks[i][0],
-      y : replay
+      y: replay
     }
     line[1] = {
       x: allPlayBacks[i][1],
       y: replay
     }
-    myChart.data.labels.push(line[1].x)
-    myChart.data.datasets.push({
-      label: `Replay ${replay}`,
-      fill: false,
-      data: line
-    })
-    if (myChart.data.datasets.length > 4) {
-      myChart.options.scales.yAxes[0].ticks.max = myChart.data.datasets.length + 1;
-    }
+    pushData(line);
+    changeYAxes();
   }
   createChart();
 }
 
-
 let averageDataArray = [];
+
+
 
 //NEXT STEP: Push the average data into the chart
 
