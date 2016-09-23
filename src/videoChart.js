@@ -5,6 +5,23 @@ var data = {
     ]
 };
 
+var scales = {
+  xAxes: [{
+    type:'linear',
+    position: 'bottom',
+    ticks: {
+      beginAtZero:true
+    }
+  }],
+  yAxes: [{
+      ticks: {
+          beginAtZero:true,
+          max: 5,
+          stepSize: 1
+      }
+  }]
+}
+
 var options = {
   responsive:true,
   maintainAspectRatio: true,
@@ -17,30 +34,14 @@ var options = {
       borderColor: 'rgba(0,0,128,0.7)'
     }
   },
-  scales: {
-      xAxes: [{
-        type:'linear',
-        position: 'bottom',
-        ticks: {
-
-          beginAtZero:true
-        }
-      }],
-      yAxes: [{
-          ticks: {
-              beginAtZero:true,
-              max: 5,
-              stepSize: 1
-          }
-      }]
-  }
+  scales: scales
 }
-
 
 var myChart = new Chart(ctx, {
     type: 'line',
     data: data,
-    options: options});
+    options: options
+  });
 
 
 //Erase and Build New Chart
@@ -85,17 +86,10 @@ function insertAllDataIntoSets () {
 
 let averageDataArray = [];
 
-
-
 //NEXT STEP: Push the average data into the chart
-
-
 //Organize Datasets Array into Array of sorted Points
 
 //Is the averageData Array empty? Push first sorted point into it.
-
-
-
 
 function fullBuild (datasets) {
   sortedRanges()
