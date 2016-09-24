@@ -84,31 +84,34 @@ function insertAllDataIntoSets () {
   createChart();
 }
 
-let averageDataArray = [];
+
 
 //NEXT STEP: Push the average data into the chart
 //Organize Datasets Array into Array of sorted Points
 
 //Is the averageData Array empty? Push first sorted point into it.
 
-function fullBuild (datasets) {
-  sortedRanges()
+
+
+function fullBuild () {
+  buildAverageDataArray(sortRanges(myChart.data.datasets), 0)
 }
 
 function buildAverageDataArray (sortedData, i){
   let tempArray = [];
+  console.log(i + ": " +tempArray);
   if (sortedData.length===1 && !i ){
     return 0;
   } if (sortedData.length > 1) {
   averageBuilder(sortedData[i], sortedData[sortedData.length-1], averageDataArray);
   tempArray.push(sortedData.pop());
-  recursion(sortedData, i);
+ buildAverageDataArray(sortedData, i);
   } if (sortedData.length===1 && i > 0) {
-    recursion(tempArray, i++)
+   buildAverageDataArray(tempArray, i++)
   }
 }
 // //On each iteration
-
+//called in Average DataArray
 let averageBuilder = (range, point, aveArray) => {
   if(doRangesOverlap(range, point)) {
     addAveragePoint(point, aveArray)
@@ -125,10 +128,10 @@ let doRangesOverlap = (range, point) => {
 }
 // //Called in averageBuilder()
 let addAveragePoint = (point, aveArray) => {
-   if (indexOfRow(averageArray, point.data[0]) === -1) {
+   if (indexOfRow(aveArray, point.data[0]) === -1) {
     aveArray.push([point.data[0],1]);
    }
-  else aveArray[indexOfRow(averageArray, point.data[0])][1]++
+  else aveArray[indexOfRow(aveArray, point.data[0])][1]++
 }
 
 // //Called in addAveragePoint()
@@ -143,7 +146,19 @@ let indexOfRow = (array, item) => {
 }
 // //Creates new Array sorted by playback moment
 
-function sortRanges (datasets) {
+// function sortRanges (datasets) {
+//   let mapped = datasets.map( function (el, i) {
+//     return { index: i, value: el.data[0].x }})
+//   // sorting the mapped array containing the reduced values
+//   mapped.sort(function (a, b) {
+//     return +(a.value > b.value) || +(a.value === b.value) - 1;
+//   });
+//   // container for the resulting order
+//   let result = mapped.map(function (el){ return datasets[el.index]});
+//   return result
+// }
+
+function sortAndFormatRanges (datasets) {
   let mapped = datasets.map( function (el, i) {
     return { index: i, value: el.data[0].x }})
   // sorting the mapped array containing the reduced values
@@ -151,6 +166,7 @@ function sortRanges (datasets) {
     return +(a.value > b.value) || +(a.value === b.value) - 1;
   });
   // container for the resulting order
-  let result = mapped.map(function (el){ return datasets[el.index]});
+  let result = mapped.map(function (el){ return [datasets[el.index].data[0].x,datasets[el.index].data[1].x]});
+
   return result
 }
