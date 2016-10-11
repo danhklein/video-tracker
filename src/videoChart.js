@@ -1,4 +1,4 @@
-var ctx = document.getElementById("myChart");
+its var ctx = document.getElementById("myChart");
 var data = {
     labels: [],
     datasets: [
@@ -144,7 +144,22 @@ let indexOfRow = (array, item) => {
   }
   return -1;   // Not found
 }
-// //Creates new Array sorted by playback moment
+
+
+let ghost;
+
+function sortAndFormatRanges (datasets) {
+  let mapped = datasets.map( function (el, i) {
+    return { index: i, value: el.data[0].x }})
+  // sorting the mapped array containing the reduced values
+  mapped.sort(function (a, b) {
+    return +(a.value > b.value) || +(a.value === b.value) - 1;
+  });
+  // container for the resulting order
+  let result = mapped.map(function (el){ return [datasets[el.index].data[0].x,datasets[el.index].data[1].x]});
+  ghost = result;
+  return result
+}
 
 // function sortRanges (datasets) {
 //   let mapped = datasets.map( function (el, i) {
@@ -157,16 +172,3 @@ let indexOfRow = (array, item) => {
 //   let result = mapped.map(function (el){ return datasets[el.index]});
 //   return result
 // }
-
-function sortAndFormatRanges (datasets) {
-  let mapped = datasets.map( function (el, i) {
-    return { index: i, value: el.data[0].x }})
-  // sorting the mapped array containing the reduced values
-  mapped.sort(function (a, b) {
-    return +(a.value > b.value) || +(a.value === b.value) - 1;
-  });
-  // container for the resulting order
-  let result = mapped.map(function (el){ return [datasets[el.index].data[0].x,datasets[el.index].data[1].x]});
-
-  return result
-}
